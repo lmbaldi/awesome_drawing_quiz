@@ -15,6 +15,8 @@
 import 'package:awesome_drawing_quiz/app_theme.dart';
 import 'package:flutter/material.dart';
 
+import 'ad_manager.dart';
+
 // TODO: Import google_mobile_ads.dart
 
 class HomeRoute extends StatefulWidget {
@@ -84,6 +86,8 @@ class _HomeRouteState extends State<HomeRoute> {
   // TODO: Change return type to Future<InitializationStatus>
   Future<void> _initGoogleMobileAds() {
     // TODO: Initialize Google Mobile Ads SDK
-    return Future.value({});
+    //return Future.value({});
+    return FirebaseAdMob.instance.initialize(appId: AdManager.appId);
+
   }
 }
