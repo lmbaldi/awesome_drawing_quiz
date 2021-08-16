@@ -36,6 +36,9 @@
             <meta-data
                 android:name="com.google.android.gms.ads.APPLICATION_ID"
                 android:value="ca-app-pub-8256550709043150~5412603730"/>
+            <meta-data
+                android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+                android:value="true"/>
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -51,4 +54,5 @@
         <!-- TODO: Add AdMob app ID -->
 
     </application>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 </manifest>

@@ -15,6 +15,11 @@
 // TODO: Import ad_helper.dart
 
 // TODO: Import google_mobile_ads.dart
+import 'package:awesome_drawing_quiz/ad_manager.dart';
+
+// TODO: Import firebase_admob.dart
+import 'package:firebase_admob/firebase_admob.dart';
+
 
 import 'package:awesome_drawing_quiz/app_theme.dart';
 import 'package:awesome_drawing_quiz/drawing.dart';
@@ -28,13 +33,14 @@ class GameRoute extends StatefulWidget {
 }
 
 class _GameRouteState extends State<GameRoute> implements QuizEventListener {
-  late int _level;
+  int _level;
 
-  late Drawing _drawing;
+  Drawing _drawing;
 
-  late String _clue;
+  String _clue;
 
-  // TODO: Add _bannerAd
+  BannerAd _bannerAd;
+
 
   // TODO: Add _isBannerAdReady
 
@@ -54,11 +60,22 @@ class _GameRouteState extends State<GameRoute> implements QuizEventListener {
       ..listener = this
       ..startGame();
 
-    // TODO: Initialize _bannerAd
+    void _loadBannerAd() {
+      _bannerAd
+        ..load()
+        ..show(anchorType: AnchorType.top);
+    }
 
-    // TODO: Initialize _rewardedAd
+    _loadBannerAd();
 
   }
+
+  void _loadBannerAd() {
+    _bannerAd
+      ..load()
+      ..show(anchorType: AnchorType.top);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +195,7 @@ class _GameRouteState extends State<GameRoute> implements QuizEventListener {
     );
   }
 
-  Widget? _buildFloatingActionButton() {
+  Widget _buildFloatingActionButton() {
     // TODO: Return a FloatingActionButton if a Rewarded Ad is available
     return null;
   }
@@ -203,7 +220,7 @@ class _GameRouteState extends State<GameRoute> implements QuizEventListener {
 
   @override
   void dispose() {
-    // TODO: Dispose a BannerAd object
+    _bannerAd?.dispose();
 
     // TODO: Dispose an InterstitialAd object
 

@@ -25,7 +25,7 @@ class DrawingPainter extends CustomPainter {
     ..strokeWidth = 4.0;
 
   DrawingPainter({
-    required this.drawing,
+    @required this.drawing,
   });
 
   @override

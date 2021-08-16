@@ -24,9 +24,9 @@ class QuizManager {
 
   static QuizManager get instance => _instance;
 
-  late Drawing _drawing;
+  Drawing _drawing;
 
-  late String _clue;
+  String _clue;
 
   int _currentLevel = 1;
 
@@ -36,7 +36,7 @@ class QuizManager {
 
   int _correctAnswers = 0;
 
-  QuizEventListener? listener;
+  QuizEventListener listener;
 
   int get currentLevel => _currentLevel;
 

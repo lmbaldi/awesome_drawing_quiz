@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import 'package:awesome_drawing_quiz/app_theme.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 
 import 'ad_manager.dart';

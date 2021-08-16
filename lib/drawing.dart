@@ -58,7 +58,7 @@ class Drawing {
 }
 
 class Stroke {
-  late List<Point> _points;
+  List<Point> _points;
   
   List<Point> get points => _points;
 
