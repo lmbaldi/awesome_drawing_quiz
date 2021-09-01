@@ -20,7 +20,6 @@ import 'package:awesome_drawing_quiz/ad_manager.dart';
 // TODO: Import firebase_admob.dart
 import 'package:firebase_admob/firebase_admob.dart';
 
-
 import 'package:awesome_drawing_quiz/app_theme.dart';
 import 'package:awesome_drawing_quiz/drawing.dart';
 import 'package:awesome_drawing_quiz/drawing_painter.dart';
@@ -41,12 +40,13 @@ class _GameRouteState extends State<GameRoute> implements QuizEventListener {
 
   BannerAd _bannerAd;
 
-
   // TODO: Add _isBannerAdReady
 
   // TODO: Add _interstitialAd
+  InterstitialAd _interstitialAd;
 
   // TODO: Add _isInterstitialAdReady
+  bool _isInterstitialAdReady;
 
   // TODO: Add _rewardedAd
 
@@ -60,13 +60,16 @@ class _GameRouteState extends State<GameRoute> implements QuizEventListener {
       ..listener = this
       ..startGame();
 
-    void _loadBannerAd() {
-      _bannerAd
-        ..load()
-        ..show(anchorType: AnchorType.top);
-    }
-
     _loadBannerAd();
+
+    // TODO: Initialize _isInterstitialAdReady
+    _isInterstitialAdReady = false;
+
+    // TODO: Initialize _interstitialAd
+    _interstitialAd = InterstitialAd(
+      adUnitId: AdManager.interstitialAdUnitId,
+      listener: _onInterstitialAdEvent,
+    );
 
   }
 
@@ -75,7 +78,6 @@ class _GameRouteState extends State<GameRoute> implements QuizEventListener {
       ..load()
       ..show(anchorType: AnchorType.top);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -213,16 +215,36 @@ class _GameRouteState extends State<GameRoute> implements QuizEventListener {
   }
 
   // TODO: Implement _loadInterstitialAd()
+  void _loadInterstitialAd() {
+    _interstitialAd.load();
+  }
 
+  // TODO: Implement _onInterstitialAdEvent()
+  void _onInterstitialAdEvent(MobileAdEvent event) {
+    switch (event) {
+      case MobileAdEvent.loaded:
+        _isInterstitialAdReady = true;
+        break;
+      case MobileAdEvent.failedToLoad:
+        _isInterstitialAdReady = false;
+        print('Failed to load an interstitial ad');
+        break;
+      case MobileAdEvent.closed:
+        _moveToHome();
+        break;
+      default:
+      // do nothing
+    }
+  }
 
   // TODO: Implement _loadRewardedAd()
-
 
   @override
   void dispose() {
     _bannerAd?.dispose();
 
-    // TODO: Dispose an InterstitialAd object
+    // TODO: Dispose InterstitialAd object
+    _interstitialAd?.dispose();
 
     // TODO: Dispose a RewardedAd object
 
@@ -245,6 +267,10 @@ class _GameRouteState extends State<GameRoute> implements QuizEventListener {
     });
 
     // TODO: Load an Interstitial Ad
+    if (level >= 3 && !_isInterstitialAdReady) {
+      _loadInterstitialAd();
+    }
+
   }
 
   @override
@@ -260,12 +286,14 @@ class _GameRouteState extends State<GameRoute> implements QuizEventListener {
         return AlertDialog(
           title: Text('Game over!'),
           content: Text('Score: $correctAnswers/5'),
-          actions: [
-            TextButton(
+          actions: <Widget>[
+            FlatButton(
               child: Text('close'.toUpperCase()),
               onPressed: () {
                 // TODO: Display an Interstitial Ad
-
+                if (_isInterstitialAdReady) {
+                  _interstitialAd.show();
+                }
                 _moveToHome();
               },
             ),
